@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-#define GLFW_INCLUDE_GLCOREARB
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include "Shader.hpp"
@@ -27,7 +27,7 @@ void Shader::createShader(const char* file, GLenum type)
 	compileShader(code);
 }
 
-void Shader::readShader(const char* file, const std::string& shaderCode)
+void Shader::readShader(const char* file, std::string& shaderCode)
 {
 	std::ifstream shaderStream(file, std::ios::in);
 	if (shaderStream.is_open())
@@ -35,7 +35,8 @@ void Shader::readShader(const char* file, const std::string& shaderCode)
 		std::string line = "";
 		while (std::getline(shaderStream, line))
 		{
-			shaderCode += "\n" + line;
+			shaderCode += "\n";
+			shaderCode += line;
 		}
 		shaderStream.close();
 		hasShaderId_ = true;

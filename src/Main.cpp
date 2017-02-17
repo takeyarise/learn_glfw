@@ -1,7 +1,7 @@
 #include <iostream>
 
-//#define GLFW_DLL
 //#define GLFW_INCLUDE_GLCOREARB
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include "Shader.hpp"
@@ -34,14 +34,21 @@ int main()
 
 	glfwMakeContextCurrent(window);
 
+	glewExperimental = true;
+	if (glewInit() != GLEW_OK)
+	{
+		std::cerr << "Faild to initialize GLEW" << std::endl;
+		return 1;
+	}
+
 	glClearColor(0.2, 0.2, 0.2, 1.0);
 	glClearDepth(1.0);
 
 	// shader
 	Shader vertexShader;
 	Shader fragmentShader;
-	vertexShader.createShader("./resource/vertex.vert");
-	fragmentShader.createShader("./resource/fragment.frag");
+	vertexShader.createShader("./resource/vertex.vert", GL_VERTEX_SHADER);
+	fragmentShader.createShader("./resource/fragment.frag", GL_FRAGMENT_SHADER);
 	// program
 	Program program;
 	program.attachShader(vertexShader);

@@ -1,5 +1,8 @@
 
-#define GLFW_INCLUDE_GLCOREARB
+#include <vector>
+#include <iostream>
+
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include "ProgramObject.hpp"
