@@ -1,6 +1,8 @@
 #include <iostream>
 
-#include "include.hpp"
+#define GLFW_INCLUDE_GLCOREARB
+#include <GLFW/glfw3.h>
+
 #include "Shader.hpp"
 #include "ProgramObject.hpp"
 

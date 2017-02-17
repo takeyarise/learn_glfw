@@ -11,7 +11,7 @@ public:
 	Shader(const Shader& other) = delete;
 	Shader& operator=(const Shader& other) = delete;
 
-	void createShader(const char* shaderFile, GLenum type)
+	void createShader(const char* shaderFile, GLenum type);
 	GLuint getShaderObject() const { return shaderId_; }
 private:
 	void readShader(const char* shaderFile, const std::string& code);
