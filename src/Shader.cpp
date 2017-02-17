@@ -3,6 +3,9 @@
 #include <iostream>
 #include <fstream>
 
+#define GLFW_INCLUDE_GLCOREARB
+#include <GLFW/glfw3.h>
+
 #include "Shader.hpp"
 
 Shader::Shader()
