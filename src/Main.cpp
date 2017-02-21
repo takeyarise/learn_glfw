@@ -1,17 +1,18 @@
 #include <iostream>
+#include <string>
 
 //#define GLFW_INCLUDE_GLCOREARB
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include "Shader.hpp"
-#include "ProgramObject.hpp"
+#include "Program.hpp"
 
 int main()
 {
-	GLFWwindow* window;
 	const int width = 640;
 	const int height = 480;
+	const std::string title = "Hello openGL";
 
 	if (!glfwInit())
 	{
@@ -24,7 +25,8 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-	window = glfwCreateWindow(width, height, "Hello World", NULL, NULL);
+	GLFWwindow* window;
+	window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 	if (!window)
 	{
 		std::cerr << "can't create window" << std::endl;
@@ -45,14 +47,15 @@ int main()
 	glClearDepth(1.0);
 
 	// shader
-	Shader vertexShader;
-	Shader fragmentShader;
-	vertexShader.createShader("./resource/vertex.vert", GL_VERTEX_SHADER);
-	fragmentShader.createShader("./resource/fragment.frag", GL_FRAGMENT_SHADER);
-	// program
 	Program program;
-	program.attachShader(vertexShader);
-	program.attachShader(fragmentShader);
+	{
+		Shader vertexShader;
+		Shader fragmentShader;
+		vertexShader.createShader("./resource/vertex.vert", GL_VERTEX_SHADER);
+		fragmentShader.createShader("./resource/fragment.frag", GL_FRAGMENT_SHADER);
+		program.attachShader(vertexShader);
+		program.attachShader(fragmentShader);
+	}
 	program.linkProgram();
 
 	// triangle
