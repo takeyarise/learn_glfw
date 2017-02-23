@@ -1,7 +1,9 @@
 #pragma once
 
 #include <string>
-#include "include.hpp"
+
+#define GLFW_INCLUDE_GLCOREARB
+#include <GLFW/glfw3.h>
 
 class Shader
 {
@@ -14,7 +16,7 @@ public:
 	void createShader(const char* shaderFile, GLenum type);
 	GLuint getShaderObject() const { return shaderId_; }
 private:
-	void readShader(const char* shaderFile, const std::string& code);
+	void readShader(const char* shaderFile, std::string& code);
 	void compileShader(const std::string& code);
 	void deleteShader();
 
