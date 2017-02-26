@@ -63,6 +63,9 @@ int main()
 		 0.4f, -0.4f, 0.0f,
 		 0.0f,  0.4f, 0.0f
 	};
+	GLuint indexData[] = {
+		0, 1, 2
+	};
 	GLfloat colorData[] = {
 		1.0f, 1.0f, 1.0f,
 		1.0f, 1.0f, 1.0f,
@@ -80,6 +83,12 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, colorBufferHandle);
 	glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(GLfloat), colorData, GL_STATIC_DRAW);
 
+	// create ibo
+	GLuint iboHandle;
+	glGenBuffers(1, &iboHandle);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboHandle);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * sizeof(GLuint), indexData, GL_STATIC_DRAW);
+
 	// create vao
 	GLuint vaoHandle;
 	glGenVertexArrays(1, &vaoHandle);
@@ -94,8 +103,12 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, colorBufferHandle);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (GLubyte*)NULL);
 
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboHandle);
+
 	glBindVertexArray(0);
 
+	// enable
+	glEnable(GL_CULL_FACE);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -104,7 +117,7 @@ int main()
 		program.bind();
 
 		glBindVertexArray(vaoHandle);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 3/* indexData.size() */, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
 		program.unbind();
