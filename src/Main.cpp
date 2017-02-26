@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <array>
 
 //#define GLFW_INCLUDE_GLCOREARB
 #include <GL/glew.h>
@@ -33,6 +34,7 @@ int main()
 		glfwTerminate();
 		return -1;
 	}
+	glViewport(0, 0, width, height);
 
 	glfwMakeContextCurrent(window);
 
@@ -58,18 +60,21 @@ int main()
 	}
 
 	// create vbo
-	GLfloat positionData[] = {
-		-0.4f, -0.4f, 0.0f,
-		 0.4f, -0.4f, 0.0f,
-		 0.0f,  0.4f, 0.0f
+	std::array<GLfloat, 12> positionData = {
+		-0.8f,  0.0f, 0.0f,
+		 0.0f, -0.8f, 0.0f,
+		 0.8f,  0.0f, 0.0f,
+		 0.0f,  0.8f, 0.0f
 	};
-	GLuint indexData[] = {
-		0, 1, 2
+	std::array<GLuint, 6> indexData = {
+		0, 1, 2,
+		0, 2, 3
 	};
-	GLfloat colorData[] = {
+	std::array<GLfloat, 12> colorData = {
+		1.0f, 0.0f, 0.0f,
 		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f
+		0.0f, 0.0f, 1.0f,
+		0.0f, 1.0f, 0.0f
 	};
 
 	GLuint vboHandles[2];
@@ -78,16 +83,16 @@ int main()
 	GLuint colorBufferHandle = vboHandles[1];
 
 	glBindBuffer(GL_ARRAY_BUFFER, positionBufferHandle);
-	glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(GLfloat), positionData, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, positionData.size() * sizeof(GLfloat), positionData.data(), GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ARRAY_BUFFER, colorBufferHandle);
-	glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(GLfloat), colorData, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, colorData.size() * sizeof(GLfloat), colorData.data(), GL_STATIC_DRAW);
 
 	// create ibo
 	GLuint iboHandle;
 	glGenBuffers(1, &iboHandle);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboHandle);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * sizeof(GLuint), indexData, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexData.size() * sizeof(GLuint), indexData.data(), GL_STATIC_DRAW);
 
 	// create vao
 	GLuint vaoHandle;
@@ -117,7 +122,7 @@ int main()
 		program.bind();
 
 		glBindVertexArray(vaoHandle);
-		glDrawElements(GL_TRIANGLES, 3/* indexData.size() */, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, indexData.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
 		program.unbind();
