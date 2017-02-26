@@ -6,8 +6,12 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <glm/glm.hpp>
+
 #include "Shader.hpp"
 #include "Program.hpp"
+#include "View.hpp"
+#include "Perspective.hpp"
 
 int main()
 {
@@ -61,10 +65,10 @@ int main()
 
 	// create vbo
 	std::array<GLfloat, 12> positionData = {
-		-0.8f,  0.0f, 0.0f,
-		 0.0f, -0.8f, 0.0f,
-		 0.8f,  0.0f, 0.0f,
-		 0.0f,  0.8f, 0.0f
+		-1.0f,  0.0f, 0.0f,
+		 0.0f, -1.0f, 0.0f,
+		 1.0f,  0.0f, 0.0f,
+		 0.0f,  1.0f, 0.0f
 	};
 	std::array<GLuint, 6> indexData = {
 		0, 1, 2,
@@ -112,14 +116,37 @@ int main()
 
 	glBindVertexArray(0);
 
-	// enable
+	// gl enable
 	glEnable(GL_CULL_FACE);
+
+	// view matrix
+	View camera({0.0, 0.0, 5.0});
+	camera.setDirectionHorizontalAngle(3.14f);
+	camera.setDirectionVerticalAngle(0.0f);
+
+	// perspective matrix
+	Perspective perspective;
+	perspective.setFieldofView(45.0f);
+	perspective.setAspect(static_cast<float>(width) / static_cast<float>(height));
+	perspective.setNearClippingPlane(0.1f);
+	perspective.setFarClippingPlane(100.0f);
+
+	// get handle shader uniform
+	GLuint matrixHandle = glGetUniformLocation(program.getProgramObject(), "MVP");
+
+	// compute the mvp matrix
+	glm::mat4 projectionMatrix = perspective.getProjectionMatrix();
+	glm::mat4 viewMatrix = camera.getViewMatrix();
+	glm::mat4 modelMatrix = glm::mat4(1.0);	// rotate, scale change..
+	glm::mat4 mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
 
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		// ----------
 		program.bind();
+
+		glUniformMatrix4fv(matrixHandle, 1, GL_FALSE, &mvpMatrix[0][0]);
 
 		glBindVertexArray(vaoHandle);
 		glDrawElements(GL_TRIANGLES, indexData.size(), GL_UNSIGNED_INT, 0);
