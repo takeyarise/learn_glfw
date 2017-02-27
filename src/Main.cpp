@@ -81,8 +81,8 @@ int main()
 		0.0f, 1.0f, 0.0f
 	};
 
-	GLuint vboHandles[2];
-	glGenBuffers(2, vboHandles);
+	std::array<GLuint, 2> vboHandles;
+	glGenBuffers(vboHandles.size(), vboHandles.data());
 	GLuint positionBufferHandle = vboHandles[0];
 	GLuint colorBufferHandle = vboHandles[1];
 
