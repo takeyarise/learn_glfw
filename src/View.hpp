@@ -9,8 +9,6 @@ public:
 	View(glm::vec3 position, glm::vec3 up = glm::vec3(0.0, 1.0, 0.0));
 	View(const View& other) = delete;
 	View& operator=(const View& other) = delete;
-	//View(View&& other);
-	//View& operator=(View&& other);
 	~View() = default;
 
 	glm::mat4 getViewMatrix() const;
