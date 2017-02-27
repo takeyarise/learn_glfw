@@ -7,6 +7,7 @@
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "Shader.hpp"
 #include "Program.hpp"
@@ -64,6 +65,7 @@ int main()
 	}
 
 	// create vbo
+	/*
 	std::array<GLfloat, 12> positionData = {
 		-1.0f,  0.0f, 0.0f,
 		 0.0f, -1.0f, 0.0f,
@@ -79,6 +81,41 @@ int main()
 		1.0f, 1.0f, 1.0f,
 		0.0f, 0.0f, 1.0f,
 		0.0f, 1.0f, 0.0f
+	};
+	*/
+	std::array<GLfloat, 24> positionData = {
+		-1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		 1.0f, -1.0f,  1.0f,
+		 1.0f, -1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f, -1.0f,
+	};
+	std::array<GLuint, 36> indexData = {
+		0, 3, 1,
+		1, 3, 2,
+		1, 2, 5,
+		5, 2, 6,
+		6, 2, 3,
+		6, 3, 7,
+		7, 3, 0,
+		7, 0, 4,
+		4, 0, 1,
+		4, 1, 5,
+		4, 5, 6,
+		4, 6, 7
+	};
+	std::array<GLfloat, 24> colorData = {
+		1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
 	};
 
 	std::array<GLuint, 2> vboHandles;
@@ -137,7 +174,7 @@ int main()
 	// compute the mvp matrix
 	glm::mat4 projectionMatrix = perspective.getProjectionMatrix();
 	glm::mat4 viewMatrix = camera.getViewMatrix();
-	glm::mat4 modelMatrix = glm::mat4(1.0);	// rotate, scale change..
+	glm::mat4 modelMatrix = glm::rotate(glm::mat4(), 3.14f / 6, glm::vec3(1, 0, 0)) * glm::rotate(glm::mat4(), 3.14f / 4, glm::vec3(0, 1, 0));
 	glm::mat4 mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
 
 	while (!glfwWindowShouldClose(window))
