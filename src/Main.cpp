@@ -2,7 +2,6 @@
 #include <string>
 #include <array>
 
-//#define GLFW_INCLUDE_GLCOREARB
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -65,24 +64,6 @@ int main()
 	}
 
 	// create vbo
-	/*
-	std::array<GLfloat, 12> positionData = {
-		-1.0f,  0.0f, 0.0f,
-		 0.0f, -1.0f, 0.0f,
-		 1.0f,  0.0f, 0.0f,
-		 0.0f,  1.0f, 0.0f
-	};
-	std::array<GLuint, 6> indexData = {
-		0, 1, 2,
-		0, 2, 3
-	};
-	std::array<GLfloat, 12> colorData = {
-		1.0f, 0.0f, 0.0f,
-		1.0f, 1.0f, 1.0f,
-		0.0f, 0.0f, 1.0f,
-		0.0f, 1.0f, 0.0f
-	};
-	*/
 	std::array<GLfloat, 24> positionData = {
 		-1.0f, -1.0f, -1.0f,
 		-1.0f, -1.0f,  1.0f,
