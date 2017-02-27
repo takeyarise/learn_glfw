@@ -29,5 +29,6 @@
 *.app
 
 # --------
+*.swp
 /build/
 /learning_glfw/
