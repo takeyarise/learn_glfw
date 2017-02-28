@@ -12,6 +12,7 @@
 #include "Program.hpp"
 #include "View.hpp"
 #include "Perspective.hpp"
+#include "Graphic.hpp"
 
 int main()
 {
@@ -63,58 +64,26 @@ int main()
 		program.linkProgram();
 	}
 
-	// create vbo
-	std::array<GLfloat, 24> positionData = {
-		-1.0f, -1.0f, -1.0f,
-		-1.0f, -1.0f,  1.0f,
-		 1.0f, -1.0f,  1.0f,
-		 1.0f, -1.0f, -1.0f,
-		-1.0f,  1.0f, -1.0f,
-		-1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f, -1.0f,
-	};
-	std::array<GLuint, 36> indexData = {
-		0, 3, 1,
-		1, 3, 2,
-		1, 2, 5,
-		5, 2, 6,
-		6, 2, 3,
-		6, 3, 7,
-		7, 3, 0,
-		7, 0, 4,
-		4, 0, 1,
-		4, 1, 5,
-		4, 5, 6,
-		4, 6, 7
-	};
-	std::array<GLfloat, 24> colorData = {
-		1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-	};
+	// cube datas
+	Cube cube;
 
+	// create vbo
 	std::array<GLuint, 2> vboHandles;
 	glGenBuffers(vboHandles.size(), vboHandles.data());
 	GLuint positionBufferHandle = vboHandles[0];
 	GLuint colorBufferHandle = vboHandles[1];
 
 	glBindBuffer(GL_ARRAY_BUFFER, positionBufferHandle);
-	glBufferData(GL_ARRAY_BUFFER, positionData.size() * sizeof(GLfloat), positionData.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, cube.vertices.size() * sizeof(GLfloat), cube.vertices.data(), GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ARRAY_BUFFER, colorBufferHandle);
-	glBufferData(GL_ARRAY_BUFFER, colorData.size() * sizeof(GLfloat), colorData.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, cube.colors.size() * sizeof(GLfloat), cube.colors.data(), GL_STATIC_DRAW);
 
 	// create ibo
 	GLuint iboHandle;
 	glGenBuffers(1, &iboHandle);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboHandle);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexData.size() * sizeof(GLuint), indexData.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, cube.indices.size() * sizeof(GLuint), cube.indices.data(), GL_STATIC_DRAW);
 
 	// create vao
 	GLuint vaoHandle;
@@ -167,7 +136,7 @@ int main()
 		glUniformMatrix4fv(matrixHandle, 1, GL_FALSE, &mvpMatrix[0][0]);
 
 		glBindVertexArray(vaoHandle);
-		glDrawElements(GL_TRIANGLES, indexData.size(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, cube.indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
 		program.unbind();
