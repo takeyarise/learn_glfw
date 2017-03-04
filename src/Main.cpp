@@ -71,7 +71,8 @@ int main()
 	// obj load
 	PRINT_DEBUG("load obj file");
 	Mesh mesh;
-	mesh.load("./resource/cube.obj");
+	//mesh.load("./resource/cube.obj");
+	mesh.load("./resource/VespaMandarinia/VespaMandarinia.OBJ");
 
 	GLuint vboHandle;
 	glGenBuffers(1, &vboHandle);
@@ -96,7 +97,7 @@ int main()
 	glEnable(GL_CULL_FACE);
 
 	// view matrix
-	View camera({0.0, 0.0, 5.0});
+	View camera({0.0, 0.0, 25.0});
 	camera.setDirectionHorizontalAngle(3.14f);
 	camera.setDirectionVerticalAngle(0.0f);
 
