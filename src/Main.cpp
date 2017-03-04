@@ -8,11 +8,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Debug.hpp"
 #include "Shader.hpp"
 #include "Program.hpp"
 #include "View.hpp"
 #include "Perspective.hpp"
 #include "Graphic.hpp"
+#include "Mesh.hpp"
 
 int main()
 {
@@ -47,12 +49,14 @@ int main()
 	if (glewInit() != GLEW_OK)
 	{
 		std::cerr << "Faild to initialize GLEW" << std::endl;
+		glfwTerminate();
 		return 1;
 	}
 
 	glClearColor(0.2, 0.2, 0.2, 1.0);
 
 	// shader
+	PRINT_DEBUG("create shader");
 	Program program;
 	{
 		Shader vertexShader;
@@ -64,43 +68,28 @@ int main()
 		program.linkProgram();
 	}
 
-	// cube datas
-	Cube cube;
+	// obj load
+	PRINT_DEBUG("load obj file");
+	Mesh mesh;
+	mesh.load("./resource/cube.obj");
 
-	// create vbo
-	std::array<GLuint, 2> vboHandles;
-	glGenBuffers(vboHandles.size(), vboHandles.data());
-	GLuint positionBufferHandle = vboHandles[0];
-	GLuint colorBufferHandle = vboHandles[1];
+	GLuint vboHandle;
+	glGenBuffers(1, &vboHandle);
+	glBindBuffer(GL_ARRAY_BUFFER, vboHandle);
+	glBufferData(GL_ARRAY_BUFFER, mesh.vertices.size() * sizeof(float), mesh.vertices.data(), GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ARRAY_BUFFER, positionBufferHandle);
-	glBufferData(GL_ARRAY_BUFFER, cube.vertices.size() * sizeof(GLfloat), cube.vertices.data(), GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ARRAY_BUFFER, colorBufferHandle);
-	glBufferData(GL_ARRAY_BUFFER, cube.colors.size() * sizeof(GLfloat), cube.colors.data(), GL_STATIC_DRAW);
-
-	// create ibo
 	GLuint iboHandle;
 	glGenBuffers(1, &iboHandle);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboHandle);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, cube.indices.size() * sizeof(GLuint), cube.indices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.vertexIndex.size() * sizeof(unsigned int), mesh.vertexIndex.data(), GL_STATIC_DRAW);
 
-	// create vao
 	GLuint vaoHandle;
 	glGenVertexArrays(1, &vaoHandle);
 	glBindVertexArray(vaoHandle);
-
 	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-
-	glBindBuffer(GL_ARRAY_BUFFER, positionBufferHandle);
+	glBindBuffer(GL_ARRAY_BUFFER, vboHandle);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLubyte*)NULL);
-
-	glBindBuffer(GL_ARRAY_BUFFER, colorBufferHandle);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (GLubyte*)NULL);
-
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboHandle);
-
 	glBindVertexArray(0);
 
 	// gl enable
@@ -121,22 +110,25 @@ int main()
 	// get handle shader uniform
 	GLuint matrixHandle = glGetUniformLocation(program.getProgramObject(), "MVP");
 
-	// compute the mvp matrix
-	glm::mat4 projectionMatrix = perspective.getProjectionMatrix();
-	glm::mat4 viewMatrix = camera.getViewMatrix();
-	glm::mat4 modelMatrix = glm::rotate(glm::mat4(), 3.14f / 6, glm::vec3(1, 0, 0)) * glm::rotate(glm::mat4(), 3.14f / 4, glm::vec3(0, 1, 0));
-	glm::mat4 mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
+	float degree = 0;
 
+	PRINT_DEBUG("loop");
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		// ----------
 		program.bind();
 
+		// compute the mvp matrix
+		glm::mat4 projectionMatrix = perspective.getProjectionMatrix();
+		glm::mat4 viewMatrix = camera.getViewMatrix();
+		glm::mat4 modelMatrix = glm::rotate(glm::mat4(), 3.14f / 6, glm::vec3(1, 0, 0)) * glm::rotate(glm::mat4(), degree / 180.0f * 3.14f, glm::vec3(0, 1, 0));
+		glm::mat4 mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
 		glUniformMatrix4fv(matrixHandle, 1, GL_FALSE, &mvpMatrix[0][0]);
+		degree = (degree > 360.0f) ? 0.0f : degree + 1.0f;
 
 		glBindVertexArray(vaoHandle);
-		glDrawElements(GL_TRIANGLES, cube.indices.size(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, mesh.vertexIndex.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
 		program.unbind();

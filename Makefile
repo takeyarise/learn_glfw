@@ -17,8 +17,8 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 LDFLAGS := $(shell pkg-config --libs gl glew glfw3)
 
-#CXXFLAGS := -Wall -Wextra -g -DDEBUG #-DGLFW_INCLUDE_NONE
-CXXFLAGS := -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-declarations -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Wno-unused -g -DDEBUG #-DGLFW_INCLUDE_NONE
+CXXFLAGS := -Wall -Wextra -g -DDEBUG #-DGLFW_INCLUDE_NONE
+#CXXFLAGS := -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-declarations -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Wno-unused -g -DDEBUG #-DGLFW_INCLUDE_NONE
 
 CPPFLAGS ?= $(INC_FLAGS) $(shell pkg-config --cflags gl glew glfw3) -MMD -MP
 

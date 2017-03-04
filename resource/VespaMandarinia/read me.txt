@@ -1,0 +1,62 @@
+Read me
+
+I show my 3D model data in order to get to know the fascination of the form of insects to everyone. 
+Use to commercial also is free. There is no need to specify the reference source. 
+Please observe this much. 
+Do not use in any way in the expression of harming the human mind or violence.
+
+Some flow of mesh of the models is biased because created that used the spline patch modeling.
+You can correct it by the Retopo.
+You can remodel to your original insect.
+
+Please check the accuracy of the shape by observing the specimen.
+
+I will publish the 3D data of other insects in the future.
+Contact me if you want to know the technical thing about my modeling.
+I hope that we create collaboratively an archive of the 3D data of the insect with a favorite genre of our own.
+
+Rachel Carson _ "The sence of wonder" 
+
+You have to observe insects more carefully to create your model.
+It is one way to get to know more deeply the complexity and beauty of nature .
+I hope that it can become an opportunity for young people to think about nature.
+
+Attention ! I do not take responsibility of all about the downloading of data and the uptake of data to 3D application.
+
+ZEROKOBO
+
+http://zerokobo.web.fc2.com/
+
+-------------------------------------------------------
+
+
+データ使用についてのお願い 
+
+一人でも多くの人に昆虫のかたちのおもしろさ、美しさを知ってほしいと3Dモデルデータの公開を始めます。
+商用を問わず自由に利用、改変OKです。引用の明記等必要ありません。
+ただし、人の心をおとしめたり傷つけるような表現、暴力を助長するような表現への利用には絶対に使わないでください。
+
+3dsMaxでのスプラインパッチモデリングのためメッシュの流れが偏っているものもあり、リトポをして修正してください。
+Zbrushや他の3Dソフトで細部を造りこんだり、オリジナルのキャラクターに改造したりして楽しんでください。
+特に若い人が自然のかたちに興味を持つことから始めて、造形を通じて自然の複雑さ素晴らしさを感じ、
+身のまわりの自然環境のことについて考えるきっかけになれば嬉しいです。
+
+カブトムシのデータ等、一部しか細部の表現がされていません。表面のデテールもついていません。
+昆虫の形態の正確さはあくまで素人の個人の観察範囲の造形ですので、標本等を観察して確認してください。
+3Dプリンターなどで出力するには、関節の可動部分などデータの作りこみが必要です。
+
+引き続きHPにある他の昆虫3Dデータも公開していきたいと思っています。
+これから昆虫造形、昆虫のCGモデリングをしたいという方がいましたら是非ご連絡ください。
+それぞれ自分の得意ジャンルをもって昆虫3Dデータのアーカイブが出来ていけば面白いなあと思っています。
+甲殻類や自然が生み出した造形は尽きることのない魅力を放っています。
+
+レイチェル・カーソンの　「The sence of wonder」―驚異に満ちた自然に接して感動する感性を持つこと。
+自然を観てものを作ることは自然をより深く知っていくことの一つの方法です。
+私の造形に関しての技術的なこと等に興味のある方はご一報ください。
+
+（注）データのダウンロードおよび、3Dアプリケーションへのデータの取り込み等に関しての一切の責任をもちません。
+自己責任において行ってください。
+
+ゼロ工房
+http://www.eonet.ne.jp/~zerokobo/
+

@@ -8,3 +8,9 @@ opengl と glfw の学習用リポジトリ
 + シェーダを扱えるようにする
 + モデルを扱えるようにする
 
+## 使用しているライブラリ
+
++ GLFW
++ GLEW
++ GLM
++ tinyObjLoader
