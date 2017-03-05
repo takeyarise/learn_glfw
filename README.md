@@ -13,4 +13,3 @@ opengl と glfw の学習用リポジトリ
 + GLFW
 + GLEW
 + GLM
-+ tinyObjLoader
