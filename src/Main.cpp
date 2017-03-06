@@ -14,6 +14,7 @@
 #include "View.hpp"
 #include "Perspective.hpp"
 #include "Graphic.hpp"
+#include "ObjLoader.hpp"
 #include "Mesh.hpp"
 
 int main()
@@ -53,7 +54,7 @@ int main()
 		return 1;
 	}
 
-	glClearColor(0.2, 0.2, 0.2, 1.0);
+	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
 	// shader
 	PRINT_DEBUG("create shader");
@@ -70,9 +71,12 @@ int main()
 
 	// obj load
 	PRINT_DEBUG("load obj file");
+	ObjLoader loader;
 	Mesh mesh;
-	//mesh.load("./resource/cube.obj");
-	mesh.load("./resource/VespaMandarinia/VespaMandarinia.OBJ");
+	if (!loader.load("./resource/VespaMandarinia/", "VespaMandarinia.OBJ", "")) {
+		std::cerr << "Faild to load obj file" << std::endl;
+	}
+	loader.createMesh(mesh);
 
 	GLuint vboHandle;
 	glGenBuffers(1, &vboHandle);
@@ -82,7 +86,7 @@ int main()
 	GLuint iboHandle;
 	glGenBuffers(1, &iboHandle);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboHandle);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.vertexIndex.size() * sizeof(unsigned int), mesh.vertexIndex.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.indices.size() * sizeof(unsigned int), mesh.indices.data(), GL_STATIC_DRAW);
 
 	GLuint vaoHandle;
 	glGenVertexArrays(1, &vaoHandle);
@@ -129,7 +133,7 @@ int main()
 		degree = (degree > 360.0f) ? 0.0f : degree + 1.0f;
 
 		glBindVertexArray(vaoHandle);
-		glDrawElements(GL_TRIANGLES, mesh.vertexIndex.size(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, mesh.indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
 		program.unbind();
