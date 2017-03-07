@@ -215,3 +215,19 @@ bool ObjLoader::loadObj(const std::string& file)
 
 	return true;
 }
+bool ObjLoader::loadMtl(const std::string& file)
+{
+	std::ifstream ifs;
+	ifs.open(file.c_str(), std::ios::in);
+	if (!ifs.is_open()) {
+		std::cerr << "Fail to open the file: " << file << std::endl;
+		return false;
+	}
+
+	std::string line;
+	while (!safeGetLine(ifs, line).eof()) {
+
+	}
+
+	return true;
+}

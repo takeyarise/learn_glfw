@@ -12,9 +12,6 @@
 #include <limits>
 
 /* todo
-+ loadObj関数のテスト(vertexのみ)
-+ どこかのstd::arrayでオーバーフローが起こっているので直すこと
-+ Meshファイルの見直し
 + loadMtl関数の作成
 */
 
@@ -35,6 +32,24 @@ struct VertexPack
 	std::array<float, 3> vertex;
 	std::array<float, 3> normal;
 	std::array<float, 2> texCoord;
+};
+
+struct ObjMtl
+{
+	std::vector<float> ambient;
+	std::vector<float> diffuse;
+	std::vector<float> specular;
+	float specularExponent;
+	float alpha;
+	int illum;
+	std::string ambientTextureName;
+	std::string diffuseTextureName;
+	std::string specularTextureName;
+	std::string specularHighLightTextureName;
+	std::string alphaTextureName;
+	std::string bumpTextureName;
+	std::string displacementMapTextureName;
+	std::string stencilDecalTextureName;
 };
 
 namespace std
@@ -88,17 +103,18 @@ private:
 	void convertVBOIndex(std::string& element);
 	void faceParse(std::istringstream& input);
 	bool loadObj(const std::string& file);
-	bool loadMtl(const std::string& file) {return true;}
+	bool loadMtl(const std::string& file);
 
 	std::deque<std::array<float, 3>> vertices_;
 	std::deque<std::array<float, 3>> normals_;
 	std::deque<std::array<float, 2>> texCoords_;
 
+	std::deque<ColorPack> VBOColor_;
+
 	// openGL vbo index
 	std::unordered_map<VertexPack, unsigned int> indexTable_;
 	std::deque<VertexPack> VBO_;
 	std::deque<unsigned int> VBOIndex_;
-	std::deque<ColorPack> VBOColor_;
 	unsigned int numVertices_;
 };
 
