@@ -36,6 +36,7 @@ struct VertexPack
 
 struct ObjMtl
 {
+	ObjMtl() : specularExponent(0.0f), alpha(0.0f), illum(0) {}
 	std::vector<float> ambient;
 	std::vector<float> diffuse;
 	std::vector<float> specular;
@@ -109,6 +110,7 @@ private:
 	std::deque<std::array<float, 3>> normals_;
 	std::deque<std::array<float, 2>> texCoords_;
 
+	std::unordered_map<std::string, ObjMtl> mtlTable_;
 	std::deque<ColorPack> VBOColor_;
 
 	// openGL vbo index

@@ -225,8 +225,29 @@ bool ObjLoader::loadMtl(const std::string& file)
 	}
 
 	std::string line;
+	std::string buf;
+	std::string mtlname;
 	while (!safeGetLine(ifs, line).eof()) {
+		std::istringstream iss(line);
+		iss >> buf;
 
+		if (buf == "newmtl") {
+		} else if (buf == "Ka") {
+		} else if (buf == "Kd") {
+		} else if (buf == "Ks") {
+		} else if (buf == "Ns") {
+		} else if (buf == "d") {
+		} else if (buf == "Tr") {
+		} else if (buf == "illum") {
+		} else if (buf == "map_Ka") {
+		} else if (buf == "map_Kd") {
+		} else if (buf == "map_Ks") {
+		} else if (buf == "map_Ns") {
+		} else if (buf == "map_d") {
+		} else if (buf == "map_bump" || buf == "bump") {
+		} else if (buf == "disp") {
+		} else if (buf == "decal") {
+		}
 	}
 
 	return true;
