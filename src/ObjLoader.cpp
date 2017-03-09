@@ -14,18 +14,6 @@
 #include "loader.hpp"
 #include "Mesh.hpp"
 
-// bool VertexPack::operator==(const VertexPack &other)
-// {
-// 	return std::abs(vertex.at(0) - other.vertex.at(0)) <= std::numeric_limits<float>::epsilon() &&
-// 	std::abs(vertex.at(1) - other.vertex.at(1)) <= std::numeric_limits<float>::epsilon() &&
-// 	std::abs(vertex.at(2) - other.vertex.at(2)) <= std::numeric_limits<float>::epsilon() &&
-// 	std::abs(normal.at(0) - other.normal.at(0)) <= std::numeric_limits<float>::epsilon() &&
-// 	std::abs(normal.at(1) - other.normal.at(1)) <= std::numeric_limits<float>::epsilon() &&
-// 	std::abs(normal.at(2) - other.normal.at(2)) <= std::numeric_limits<float>::epsilon() &&
-// 	std::abs(texCoord.at(0) - other.texCoord.at(0)) <= std::numeric_limits<float>::epsilon() &&
-// 	std::abs(texCoord.at(1) - other.texCoord.at(1)) <= std::numeric_limits<float>::epsilon();
-// }
-
 ObjLoader::ObjLoader()
 	: numVertices_(0)
 {
@@ -37,10 +25,13 @@ ObjLoader::~ObjLoader()
 
 bool ObjLoader::load(const std::string &path, const std::string &objName, const std::string &mtlName)
 {
-	if (!loadMtl(path + mtlName)) {
+	if (!loadObj(path + objName)) {
 		return false;
 	}
-	if (!loadObj(path + objName)) {
+	if (mtlName.empty()) {
+		return true;
+	}
+	if (!loadMtl(path + mtlName)) {
 		return false;
 	}
 	return true;
@@ -215,6 +206,8 @@ bool ObjLoader::loadObj(const std::string& file)
 
 	return true;
 }
+
+// sample
 bool ObjLoader::loadMtl(const std::string& file)
 {
 	std::ifstream ifs;
@@ -232,21 +225,61 @@ bool ObjLoader::loadMtl(const std::string& file)
 		iss >> buf;
 
 		if (buf == "newmtl") {
+			mtlname.clear();
+			iss >> mtlname;
 		} else if (buf == "Ka") {
+			float x, y, z;
+			iss >> x >> y >> z;
+			mtlTable_[mtlname].ambient.push_back(x);
+			mtlTable_[mtlname].ambient.push_back(y);
+			mtlTable_[mtlname].ambient.push_back(z);
 		} else if (buf == "Kd") {
+			float x, y, z;
+			iss >> x >> y >> z;
+			mtlTable_[mtlname].diffuse.push_back(x);
+			mtlTable_[mtlname].diffuse.push_back(y);
+			mtlTable_[mtlname].diffuse.push_back(z);
 		} else if (buf == "Ks") {
+			float x, y, z;
+			iss >> x >> y >> z;
+			mtlTable_[mtlname].specular.push_back(x);
+			mtlTable_[mtlname].specular.push_back(y);
+			mtlTable_[mtlname].specular.push_back(z);
 		} else if (buf == "Ns") {
+			// float e;
+			// iss >> e;
+			// mtlTable_[mtlname].specularExponent = e;
+			iss >> mtlTable_[mtlname].specularExponent;
 		} else if (buf == "d") {
+			// float a;
+			// iss >> a;
+			// mtlTable_[mtlname].alpha = a;
+			iss >> mtlTable_[mtlname].alpha;
 		} else if (buf == "Tr") {
+			float a;
+			iss >> a;
+			mtlTable_[mtlname].alpha = 1.0f - a;
 		} else if (buf == "illum") {
+			// int i;
+			// iss >> i;
+			// mtlTable_[mtlname].illum = i;
+			iss >> mtlTable_[mtlname].illum;
 		} else if (buf == "map_Ka") {
+			iss >> mtlTable_[mtlname].ambientTextureName;
 		} else if (buf == "map_Kd") {
+			iss >> mtlTable_[mtlname].diffuseTextureName;
 		} else if (buf == "map_Ks") {
+			iss >> mtlTable_[mtlname].specularTextureName;
 		} else if (buf == "map_Ns") {
+			iss >> mtlTable_[mtlname].specularHighLightTextureName;
 		} else if (buf == "map_d") {
+			iss >> mtlTable_[mtlname].alphaTextureName;
 		} else if (buf == "map_bump" || buf == "bump") {
+			iss >> mtlTable_[mtlname].bumpTextureName;
 		} else if (buf == "disp") {
+			iss >> mtlTable_[mtlname].displacementMapTextureName;
 		} else if (buf == "decal") {
+			iss >> mtlTable_[mtlname].stencilDecalTextureName;
 		}
 	}
 

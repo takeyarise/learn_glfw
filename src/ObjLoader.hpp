@@ -11,8 +11,9 @@
 #include <limits>
 
 /* todo
-+ loadMtl関数の作成
++ convertVBOIndex関数の見直し
 + hash関数のアルゴリズムを変える(案: xxhash)
++ dequeじゃなくてvectorでいい?
 */
 
 class Mesh;
@@ -97,7 +98,7 @@ public:
 	ObjLoader();
 	~ObjLoader();
 
-	bool load(const std::string& path, const std::string& objName, const std::string& mtlName);
+	bool load(const std::string& path, const std::string& objName, const std::string& mtlName = "");
 	void createMesh(Mesh& mesh);
 private:
 	bool findSameVertex(VertexPack& pack, unsigned int& result);
@@ -110,6 +111,7 @@ private:
 	std::deque<std::array<float, 3>> normals_;
 	std::deque<std::array<float, 2>> texCoords_;
 
+	// sample
 	std::unordered_map<std::string, ObjMtl> mtlTable_;
 	std::deque<ColorPack> VBOColor_;
 
@@ -119,4 +121,3 @@ private:
 	std::deque<unsigned int> VBOIndex_;
 	unsigned int numVertices_;
 };
-
