@@ -1,5 +1,4 @@
-#ifndef OBJ_LOADER_HPP
-#define OBJ_LOADER_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -13,6 +12,7 @@
 
 /* todo
 + loadMtl関数の作成
++ hash関数のアルゴリズムを変える(案: xxhash)
 */
 
 class Mesh;
@@ -120,4 +120,3 @@ private:
 	unsigned int numVertices_;
 };
 
-#endif /* end of include guard: OBJ_LOADER_HPP */
