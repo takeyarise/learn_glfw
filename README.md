@@ -1,4 +1,4 @@
-# learning_glfw
+# learn_glfw
 
 opengl と glfw の学習用リポジトリ
 
