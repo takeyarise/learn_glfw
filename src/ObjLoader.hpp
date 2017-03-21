@@ -13,7 +13,6 @@
 /* todo
 + convertVBOIndex関数の見直し
 + hash関数のアルゴリズムを変える(案: xxhash)
-+ dequeじゃなくてvectorでいい?
 */
 
 class Mesh;
