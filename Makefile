@@ -17,7 +17,7 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 LDFLAGS := $(shell pkg-config --libs gl glew glfw3)
 
-CXXFLAGS := -Wall -Wextra -g -DDEBUG #-DGLFW_INCLUDE_NONE
+CXXFLAGS := -std=c++14 -Wall -Wextra -g -DDEBUG #-DGLFW_INCLUDE_NONE
 
 CPPFLAGS ?= $(INC_FLAGS) $(shell pkg-config --cflags gl glew glfw3) -MMD -MP
 
